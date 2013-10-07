@@ -9,7 +9,7 @@
 #include <iostream>
 #include "GeneRat.h"
 
-#include "Testers/Testers.h"
+#include "testers/testers.h"
 
 typedef int (*MainFunc)();
 int runMain(MainFunc, bool=true);

@@ -5,7 +5,7 @@
  *      Author: yiqingxu
  */
 
-#include "Testers.h"
+#include "testers.h"
 #include "math.h"
 
 void EmptySampleSetTester(int iSize_, double dInterval_) {
