@@ -71,6 +71,12 @@ class CGeneMap {
 		 */
 		const size_t removeChromosome(int iChromosomeIndex_);
 
+		/**
+		 * 获取基因位点的名称
+		 * @param index 基因序号
+		 * @return 基因位点的名称
+		 */
+		const string getGeneNameAt(size_t index) const;
 		//TODO todolist
 };
 

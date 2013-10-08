@@ -60,12 +60,12 @@ namespace generat {
 	}
 
 	template <typename geneType, typename expType>
-	const CSample<geneType, expType>& CSampleSet<geneType, expType>::getSampleAt(int index) const {
+	const CSample<geneType, expType>& CSampleSet<geneType, expType>::getSampleAt(const int index) const {
 		return voSamples.at(index);
 	}
 
 	template <typename geneType, typename expType>
-	CSample<geneType, expType> CSampleSet<geneType, expType>::operator [](size_t index) const {
+	CSample<geneType, expType> CSampleSet<geneType, expType>::operator [](const size_t index) const {
 		return voSamples[index];
 	}
 
@@ -81,5 +81,33 @@ namespace generat {
 		re += uToString(this->size()) + " sample(s) with ";
 		re += uToString(this->getSampleGeneNumber()) + " gene(s) each";
 		return re;
+	}
+
+	template <typename geneType, typename expType>
+	const size_t CSampleSet<geneType, expType>::initFromMatrix(const vector<vector<geneType> >& data_, const vector<string>& nameList_){
+		if ( this->getSampleGeneNumber() != data_.size() ) {
+			throw new CGeneException("Sample Data size error in line");
+			return -1;
+		}
+		if ( data_[0].size() != nameList_.size() ) {
+			throw new CGeneException("Name List Data size error");
+			return -1;
+		}
+
+		this->voSamples = *new vector<CSample<geneType,expType> >();
+		CSample<string, double>* copy = new CSample<geneType, expType>("", this->oGeneMap);
+
+		size_t i=0;
+		for (; i<nameList_.size(); i++) {
+			CSample<string, double>* oSample = new CSample<geneType, expType>(*copy);
+			oSample->setName(nameList_[i]);
+			vector<geneType>* vg = new vector<geneType>();
+			for (size_t j=0; j<this->getSampleGeneNumber(); j++) {
+				vg->push_back(data_[j][i]);
+			}
+			oSample->setGeneValue(*vg);
+			this->voSamples.push_back(*oSample);
+		}
+		return i;
 	}
 } /* namespace generat */

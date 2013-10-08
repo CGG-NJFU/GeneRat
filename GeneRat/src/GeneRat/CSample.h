@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <string>
+#include "CGeneMap.h"
 using namespace std;
 
 namespace generat {
@@ -25,9 +26,9 @@ namespace generat {
 			 */
 			string sName;
 			/**
-			 * 基因名称，字符串向量
+			 * 该样本的基因图谱
 			 */
-			vector<string>& vsGeneNames;
+			CGeneMap& oGeneMap;
 			/**
 			 * 基因型数据
 			 */
@@ -37,9 +38,14 @@ namespace generat {
 			 */
 			vector<expType> vtExpressValue;
 
+			/**
+			 * 验证样本的基因数量与图谱是否一致
+			 * @return 若一致返回TRUE，否则为FALSE
+			 */
 			const bool verifySize() const;
 		public:
-			CSample();
+			CSample(string name, CGeneMap& geneMap_);
+			CSample(const CSample& copy);
 			~CSample();
 
 			/**
@@ -54,7 +60,7 @@ namespace generat {
 			const string& getName() const;
 
 			/**
-			 * 获取样本中的基因数量
+			 * 获取样本中的基因数量，该数量应与图谱的规定一致
 			 * @return 基因数量
 			 */
 			const size_t size() const;
@@ -92,6 +98,10 @@ namespace generat {
 			 * @return 表现型数据
 			 */
 			const expType& getExpressValueAt(int index) const;
+
+			CSample& operator = (const CSample& oSample);
+
+			const string toString() const;
 	};
 
 } /* namespace generat */

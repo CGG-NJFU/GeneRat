@@ -41,7 +41,7 @@ namespace generat {
 
 			/**
 			 * 验证样本集中样本的基因数量
-			 * @return 样本的基因数量
+			 * @return 若一致返回TRUE，否则为FALSE
 			 */
 			const bool verifyGeneSize() const;
 		public:
@@ -86,13 +86,13 @@ namespace generat {
 			 * @param index 样本序号
 			 * @return 给定序号的样本
 			 */
-			const CSample<geneType, expType>& getSampleAt(int index) const;
+			const CSample<geneType, expType>& getSampleAt(const int index) const;
 			/**
 			 * 获取给定下标的样本
 			 * @param index 样本下标
 			 * @return 给定下标的样本
 			 */
-			CSample<geneType, expType> operator [](size_t index) const;
+			CSample<geneType, expType> operator [](const size_t index) const;
 			/**
 			 * 获取所有基因的名称
 			 * @return 所有基因的名称
@@ -104,6 +104,7 @@ namespace generat {
 			 */
 			const string toString() const;
 
+			const size_t initFromMatrix(const vector<vector<geneType> >& data, const vector<string>& nameList_);
 			//TODO todolist
 	};
 

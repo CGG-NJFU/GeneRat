@@ -10,8 +10,17 @@
 namespace generat {
 
 	template <typename geneType, typename expType>
-	CSample<geneType, expType>::CSample() {
-		vsGeneNames = NULL;
+	CSample<geneType, expType>::CSample(string name_, CGeneMap& geneMap_)
+		:oGeneMap(geneMap_) {
+		this->sName = name_;
+		this->vtGeneValue = *(new vector<geneType>(geneMap_.size()));
+	}
+
+	template <typename geneType, typename expType>
+	CSample<geneType, expType>::CSample(const CSample& copy)
+		:oGeneMap(copy.oGeneMap){
+		this->sName = copy.sName;
+		this->vtGeneValue = *(new vector<geneType>(copy.size()));
 	}
 
 	template <typename geneType, typename expType>
@@ -26,13 +35,18 @@ namespace generat {
 
 	template <typename geneType, typename expType>
 	const size_t CSample<geneType, expType>::size() const {
-		//TODO verify and return
-		return 0;
+		if ( verifySize() ) {
+			return this->vtGeneValue.size();
+		}
+		return -1;
 	}
 
 	template <typename geneType, typename expType>
 	const bool CSample<geneType, expType>::verifySize() const {
-		//TODO verify and return
+		if ( this->oGeneMap.size() != this->vtGeneValue.size() ) {
+			throw new CGeneException("Sample size error");
+			return false;
+		}
 		return true;
 	}
 
@@ -73,5 +87,25 @@ namespace generat {
 		return vtGeneValue.at(index);
 	}
 
+	template <typename geneType, typename expType>
+	const string CSample<geneType, expType>::toString() const {
+		string re = "Sample ";
+		re += sName + " = ";
+		re += uToString(this->size()) + " gene(s) + ";
+		re += uToString(this->vtExpressValue.size()) + " express data :";
+		for (size_t i=0; i<this->size(); i++) {
+			re += "\n" + this->oGeneMap.getGeneNameAt(i) + " : " +this->vtGeneValue[i];
+		}
+		return re;
+	}
+
+	template <typename geneType, typename expType>
+	CSample<geneType, expType>& CSample<geneType, expType>::operator = (const CSample<geneType, expType>& copy) {
+		if (this==&copy) return *this;
+		this->sName = copy.sName;
+		this->oGeneMap = copy.oGeneMap;
+		this->setGeneValue(copy.vtGeneValue);
+		return *this;
+	}
 } /* namespace generat */
 

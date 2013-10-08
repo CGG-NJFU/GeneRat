@@ -62,6 +62,10 @@ namespace generat {
 		return oldSize - size();
 	}
 
+	const string CGeneMap::getGeneNameAt(size_t index) const {
+		return this->vsGeneNames[index];
+	}
+
 	const string CGeneMap::toString() const{
 		size_t s = size();
 		string re = "GeneMap Data: "+uToString(s)+" locus";
