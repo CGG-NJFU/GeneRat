@@ -11,9 +11,11 @@ namespace generat {
 
 	CGeneMap::CGeneMap(string sMapName_) {
 		this->sMapName = sMapName_;
+		logger <<Priority::DEBUG <<"GeneMap(" <<this->sMapName <<") is constructed.";
 	}
 
 	CGeneMap::~CGeneMap() {
+		logger <<Priority::DEBUG <<"GeneMap(" <<this->sMapName <<") is destructed.";
 	}
 
 	const size_t CGeneMap::size() const {

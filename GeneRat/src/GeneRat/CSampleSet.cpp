@@ -14,10 +14,12 @@ namespace generat {
 		:oGeneMap(geneMap_) {
 		this->sName = name_;
 		this->iSampleGeneNumber = geneMap_.size();
+		logger <<Priority::DEBUG <<"SampleSet(" <<this->sName <<") is constructed.";
 	}
 
 	template <typename geneType, typename expType>
 	CSampleSet<geneType, expType>::~CSampleSet() {
+		logger <<Priority::DEBUG <<"SampleSet(" <<this->sName <<") is deleting.";
 	}
 
 	template <typename geneType, typename expType>

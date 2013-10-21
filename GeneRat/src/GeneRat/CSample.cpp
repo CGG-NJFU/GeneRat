@@ -14,6 +14,7 @@ namespace generat {
 		:oGeneMap(geneMap_) {
 		this->sName = name_;
 		this->vtGeneValue = *(new vector<geneType>(geneMap_.size()));
+		logger <<Priority::DEBUG <<"Sample(" <<this->sName <<") is constructed.";
 	}
 
 	template <typename geneType, typename expType>
@@ -21,10 +22,12 @@ namespace generat {
 		:oGeneMap(copy.oGeneMap){
 		this->sName = copy.sName;
 		this->vtGeneValue = *(new vector<geneType>(copy.size()));
+		logger <<Priority::DEBUG <<"Sample(" <<this->sName <<") is copied.";
 	}
 
 	template <typename geneType, typename expType>
 	CSample<geneType, expType>::~CSample() {
+		logger <<Priority::DEBUG <<"Sample(" <<this->sName <<") is destructed.";
 	}
 
 	template <typename geneType, typename expType>

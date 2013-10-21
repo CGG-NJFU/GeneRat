@@ -38,6 +38,7 @@ int runMain(MainFunc func, bool ifUseLog) {
 
 	if ( ifLogOK ) {
 		re = func();
+		logger <<Priority::INFO <<"SYSTEM END";
 	} else {
 		cerr <<"LOG SYSTEM MALFUNCTION DETECTED" <<endl;
 		cerr <<"Make sure log4cpp is deployed as a dependency." <<endl;
@@ -46,5 +47,3 @@ int runMain(MainFunc func, bool ifUseLog) {
 	haltLoggers();
 	return re;
 }
-
-
