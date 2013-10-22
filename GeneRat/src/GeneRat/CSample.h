@@ -38,13 +38,15 @@ namespace generat {
 			 */
 			vector<expType> vtExpressValue;
 
+			const vector<string>& vsExpressNames;
+
 			/**
 			 * 验证样本的基因数量与图谱是否一致
 			 * @return 若一致返回TRUE，否则为FALSE
 			 */
 			const bool verifySize() const;
 		public:
-			CSample(string name, CGeneMap& geneMap_);
+			CSample(const string name, CGeneMap& geneMap_, vector<string>& nameList_);
 			CSample(const CSample& copy);
 			~CSample();
 

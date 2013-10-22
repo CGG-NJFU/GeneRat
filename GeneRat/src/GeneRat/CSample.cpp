@@ -10,8 +10,8 @@
 namespace generat {
 
 	template <typename geneType, typename expType>
-	CSample<geneType, expType>::CSample(string name_, CGeneMap& geneMap_)
-		:oGeneMap(geneMap_) {
+	CSample<geneType, expType>::CSample(const string name_, CGeneMap& geneMap_, vector<string>& nameList_)
+		:oGeneMap(geneMap_), vsExpressNames(nameList_) {
 		this->sName = name_;
 		this->vtGeneValue = *(new vector<geneType>(geneMap_.size()));
 		logger <<Priority::DEBUG <<"Sample(" <<this->sName <<") is constructed.";
@@ -19,7 +19,7 @@ namespace generat {
 
 	template <typename geneType, typename expType>
 	CSample<geneType, expType>::CSample(const CSample& copy)
-		:oGeneMap(copy.oGeneMap){
+		:oGeneMap(copy.oGeneMap), vsExpressNames(copy.vsExpressNames){
 		this->sName = copy.sName;
 		this->vtGeneValue = *(new vector<geneType>(copy.size()));
 		logger <<Priority::DEBUG <<"Sample(" <<this->sName <<") is copied.";
@@ -99,7 +99,10 @@ namespace generat {
 		re += uToString(this->size()) + " gene(s) + ";
 		re += uToString(this->vtExpressValue.size()) + " express data :";
 		for (size_t i=0; i<this->size(); i++) {
-			re += "\n" + this->oGeneMap.getGeneNameAt(i) + " : " +this->vtGeneValue[i];
+			re += "\n" + this->oGeneMap.getGeneNameAt(i) + " : " +uToString(this->vtGeneValue[i]);
+		}
+		for (size_t i=0; i<this->vtExpressValue.size(); i++) {
+			re += "\nexp" + uToString(i+1) + "("+ this->vsExpressNames[i] +"): "+uToString(this->vtExpressValue[i]);
 		}
 		return re;
 	}

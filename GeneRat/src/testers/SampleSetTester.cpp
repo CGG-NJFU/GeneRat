@@ -44,21 +44,6 @@ void geneMapReader() {
 		gm->initFromIntervalData(*vd, 1);
 		logger <<Priority::INFO <<gm->toString();
 
-		///创建父本信息
-		CSample<string, double>* f = new CSample<string, double>("P-F", *gm);
-		vector<string>* vsf = new vector<string>();
-		readFile2Vector("data/geneParentF.txt", *vsf);
-		f->setGeneValue(*vsf);
-		logger <<Priority::INFO <<f->toString();
-
-		///创建母本信息
-		CSample<string, double>* m = new CSample<string, double>("P-M", *gm);
-		vector<string>* vsm = new vector<string>();
-		readFile2Vector("data/geneParentM.txt", *vsm);
-		m->setGeneValue(*vsm);
-		logger <<Priority::INFO <<m->toString();
-
-
 		int sampleSize = 189;
 		///读取子代基因型信息，并初始化样本集
 		CSampleSet<string, double>* ss = new CSampleSet<string, double>("TestSampleSet", *gm);
@@ -76,9 +61,26 @@ void geneMapReader() {
 		vector<vector<double> > expData = vector<vector<double> >(1, vector<double>(sampleSize, 0));
 		readFile2Matrix("data/expressData.txt", expData);
 
-		vector<string>* expNameList = new vector<string>(1, "exp");
+		vector<string>* expNameList = new vector<string>(1, "expData");
 		ss->initExpDataFromMatrix(expData, *expNameList);
 		logger <<Priority::INFO <<ss->toString();
+
+		srand (time(NULL));
+		logger <<Priority::INFO <<(*ss)[rand()%sampleSize].toString();
+
+		///创建父本信息
+		CSample<string, double>* f = new CSample<string, double>("P-F", *gm, *expNameList );
+		vector<string>* vsf = new vector<string>();
+		readFile2Vector("data/geneParentF.txt", *vsf);
+		f->setGeneValue(*vsf);
+		logger <<Priority::INFO <<f->toString();
+
+		///创建母本信息
+		CSample<string, double>* m = new CSample<string, double>("P-M", *gm, *expNameList );
+		vector<string>* vsm = new vector<string>();
+		readFile2Vector("data/geneParentM.txt", *vsm);
+		m->setGeneValue(*vsm);
+		logger <<Priority::INFO <<m->toString();
 
 		///析构退出
 		delete ss;

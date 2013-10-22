@@ -110,7 +110,7 @@ namespace generat {
 			return -1;
 		}
 
-		CSample<string, double>* emptySample = new CSample<geneType, expType>("", this->oGeneMap);
+		CSample<string, double>* emptySample = new CSample<geneType, expType>("", this->oGeneMap, this->vsExpressNames);
 		this->voSamples = *new vector<CSample<geneType,expType> >(nameList_.size(), *emptySample);
 
 		size_t i=0;
