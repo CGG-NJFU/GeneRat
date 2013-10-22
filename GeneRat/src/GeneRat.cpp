@@ -15,8 +15,9 @@ typedef int (*MainFunc)();
 int runMain(MainFunc, bool=true);
 
 int gr_main() {
-	emptySampleSetTester(8, 0.01);
-	//geneMapReader();
+	//basicTest();
+	//emptySampleSetTester(8, 0.01);
+	geneMapReader();
 	return (0);
 }
 

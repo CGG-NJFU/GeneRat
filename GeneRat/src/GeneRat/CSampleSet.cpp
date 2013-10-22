@@ -14,7 +14,7 @@ namespace generat {
 		:oGeneMap(geneMap_) {
 		this->sName = name_;
 		this->iSampleGeneNumber = geneMap_.size();
-		this->vsExpressName = *(new vector<string>());
+		this->vsExpressNames = *(new vector<string>());
 		logger <<Priority::DEBUG <<"SampleSet(" <<this->sName <<") is constructed.";
 	}
 
@@ -63,12 +63,14 @@ namespace generat {
 	}
 
 	template <typename geneType, typename expType>
-	const CSample<geneType, expType>& CSampleSet<geneType, expType>::getSampleAt(const int index) const {
+	const CSample<geneType, expType>& CSampleSet<geneType, expType>::getSampleAt(const size_t index) const {
+		if ( index > voSamples.size() ) throw new CGeneException("Index out of SampleSet size");
 		return voSamples.at(index);
 	}
 
 	template <typename geneType, typename expType>
 	const CSample<geneType, expType>& CSampleSet<geneType, expType>::operator [](const size_t index) const {
+		if ( index > voSamples.size() ) throw new CGeneException("Index out of SampleSet size");
 		return voSamples[index];
 	}
 
@@ -82,12 +84,23 @@ namespace generat {
 		string re = "SampleSet(";
 		re += uToString(this->sName) + "): ";
 		re += uToString(this->size()) + " sample(s) with ";
-		re += uToString(this->getSampleGeneNumber()) + " gene(s) each";
+		re += uToString(this->getSampleGeneNumber()) + " gene data and ";
+		re += uToString(this->vsExpressNames.size()) + " express data each";
 		return re;
 	}
 
 	template <typename geneType, typename expType>
-	const size_t CSampleSet<geneType, expType>::initFromMatrix(const vector<vector<geneType> >& data_, const vector<string>& nameList_){
+	const vector<string>& CSampleSet<geneType, expType>::getExpressNames() const {
+		return this->vsExpressNames;
+	}
+
+	template <typename geneType, typename expType>
+	void CSampleSet<geneType, expType>::setExpressNames(const vector<string>& vsExpressNames_) {
+		this->vsExpressNames = vsExpressNames_;
+	}
+
+	template <typename geneType, typename expType>
+	const size_t CSampleSet<geneType, expType>::initGeneDataFromMatrix(const vector<vector<geneType> >& data_, const vector<string>& nameList_){
 		if ( this->getSampleGeneNumber() != data_.size() ) {
 			throw new CGeneException("Sample Data size error in line");
 			return -1;
@@ -97,19 +110,43 @@ namespace generat {
 			return -1;
 		}
 
-		this->voSamples = *new vector<CSample<geneType,expType> >();
-		CSample<string, double>* copy = new CSample<geneType, expType>("", this->oGeneMap);
+		CSample<string, double>* emptySample = new CSample<geneType, expType>("", this->oGeneMap);
+		this->voSamples = *new vector<CSample<geneType,expType> >(nameList_.size(), *emptySample);
 
 		size_t i=0;
 		for (; i<nameList_.size(); i++) {
-			CSample<string, double>* oSample = new CSample<geneType, expType>(*copy);
-			oSample->setName(nameList_[i]);
+			this->voSamples[i].setName(nameList_[i]);
+
 			vector<geneType>* vg = new vector<geneType>();
 			for (size_t j=0; j<this->getSampleGeneNumber(); j++) {
 				vg->push_back(data_[j][i]);
 			}
-			oSample->setGeneValue(*vg);
-			this->voSamples.push_back(*oSample);
+			this->voSamples[i].setGeneValue(*vg);
+		}
+		return i;
+	}
+
+	template <typename geneType, typename expType>
+	const size_t CSampleSet<geneType, expType>::initExpDataFromMatrix(const vector<vector<expType> >& data_, const vector<string>& nameList_) {
+		if ( nameList_.size() != data_.size() ) {
+			throw new CGeneException("Name List Data size error");
+			return -1;
+		}
+		if ( data_[0].size() != this->size() ) {
+			throw new CGeneException("Exp Data size error in line");
+			return -1;
+		}
+
+		this->setExpressNames(nameList_);
+		//this->vsExpressNames = *new vector<string>( nameList_.size() );
+
+		size_t i=0;
+		for (; i<this->size(); i++) {
+			vector<expType>* ve = new vector<expType>();
+			for (size_t j=0; j<nameList_.size(); j++) {
+				ve->push_back(data_[j][i]);
+			}
+			this->voSamples[i].setExpressValue(*ve);
 		}
 		return i;
 	}

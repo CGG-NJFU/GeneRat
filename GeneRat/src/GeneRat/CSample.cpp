@@ -69,7 +69,8 @@ namespace generat {
 	}
 
 	template <typename geneType, typename expType>
-	const expType& CSample<geneType, expType>::getExpressValueAt(int index) const {
+	const expType& CSample<geneType, expType>::getExpressValueAt(const size_t index) const {
+		if ( index > vtExpressValue.size() ) throw new CGeneException("Index out of express data size");
 		return vtExpressValue.at(index);
 	}
 
@@ -86,7 +87,8 @@ namespace generat {
 
 
 	template <typename geneType, typename expType>
-	const geneType& CSample<geneType, expType>::getGeneValueAt(int index) const {
+	const geneType& CSample<geneType, expType>::getGeneValueAt(const size_t index) const {
+		if ( index > vtGeneValue.size() ) throw new CGeneException("Index out of gene data size");
 		return vtGeneValue.at(index);
 	}
 

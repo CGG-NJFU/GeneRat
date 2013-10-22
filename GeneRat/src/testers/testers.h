@@ -12,5 +12,6 @@
 
 void emptySampleSetTester(int, double);
 void geneMapReader();
+void basicTest();
 
 #endif /* TESTERS_H_ */

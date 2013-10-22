@@ -27,10 +27,7 @@ void emptySampleSetTester(int iSize_, double dInterval_) {
 
 		CSampleSet<char, double>* ss = new CSampleSet<char, double>("TestSampleSet", *gm);
 		logger <<Priority::INFO <<ss->toString();
-
-		throw new CGeneException("CGeneException Test Here", EXCEPTION_VITAL);
 	} catch (CGeneException* ge) {
-		DEBUG_POINT_HERE();
 		logger <<Priority::WARN <<"["<<ge->getExceptionClassName() <<"]" <<ge->getInfo();
 	}
 }
@@ -49,29 +46,38 @@ void geneMapReader() {
 
 		///创建父本信息
 		CSample<string, double>* f = new CSample<string, double>("P-F", *gm);
-		vector<string>* vsf = new vector<string>(geneNumber, "ab");
+		vector<string>* vsf = new vector<string>();
+		readFile2Vector("data/geneParentF.txt", *vsf);
 		f->setGeneValue(*vsf);
 		logger <<Priority::INFO <<f->toString();
 
 		///创建母本信息
 		CSample<string, double>* m = new CSample<string, double>("P-M", *gm);
-		vector<string>* vsm = new vector<string>(geneNumber, "ab");
+		vector<string>* vsm = new vector<string>();
+		readFile2Vector("data/geneParentM.txt", *vsm);
 		m->setGeneValue(*vsm);
 		logger <<Priority::INFO <<m->toString();
 
-		///读取子代信息，并初始化样本集
-		CSampleSet<string, double>* ss = new CSampleSet<string, double>("TestSampleSet", *gm);
 
 		int sampleSize = 189;
-		vector<vector<string> > data = vector<vector<string> >(geneNumber, vector<string>(sampleSize, "  "));
-		readFile2Matrix("data/geneChildFull.txt", data);
+		///读取子代基因型信息，并初始化样本集
+		CSampleSet<string, double>* ss = new CSampleSet<string, double>("TestSampleSet", *gm);
 
-		vector<string>* nameList = new vector<string>();
+		vector<vector<string> > geneData = vector<vector<string> >(geneNumber, vector<string>(sampleSize, "  "));
+		readFile2Matrix("data/geneChildFull.txt", geneData);
+
+		vector<string>* geneNameList = new vector<string>();
 		for (int i=0; i<sampleSize; i++) {
-			nameList->push_back("Sample"+uToString(i+1));
+			geneNameList->push_back("Sample"+uToString(i+1));
 		}
+		ss->initGeneDataFromMatrix(geneData, *geneNameList);
 
-		ss->initFromMatrix(data, *nameList);
+		///读取子代表现型信息，并初始化样本集
+		vector<vector<double> > expData = vector<vector<double> >(1, vector<double>(sampleSize, 0));
+		readFile2Matrix("data/expressData.txt", expData);
+
+		vector<string>* expNameList = new vector<string>(1, "exp");
+		ss->initExpDataFromMatrix(expData, *expNameList);
 		logger <<Priority::INFO <<ss->toString();
 
 		///析构退出
@@ -81,5 +87,14 @@ void geneMapReader() {
 		logger <<Priority::DEBUG <<"Data init done";
 	} catch (CGeneException* ge) {
 		logger <<Priority::WARN <<"["<<ge->getExceptionClass() <<"]" <<ge->getInfo();
+	}
+}
+
+void basicTest() {
+	try {
+		throw new CGeneException("CGeneException Test Here", EXCEPTION_VITAL);
+	} catch (CGeneException* ge) {
+		DEBUG_POINT_HERE();
+		logger <<Priority::WARN <<"["<<ge->getExceptionClassName() <<"]" <<ge->getInfo();
 	}
 }

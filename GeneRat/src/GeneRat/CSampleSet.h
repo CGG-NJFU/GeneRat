@@ -12,6 +12,7 @@
 #include "CGeneMap.h"
 #include "CGeneException.h"
 #include "../utils/GRUtils.h"
+#include "../utils/DebugMacro.h"
 #include <vector>
 #include <string>
 
@@ -41,7 +42,7 @@ namespace generat {
 			/**
 			 * 样本集中各样本的表现型数据名称
 			 */
-			vector<string> vsExpressName;
+			vector<string> vsExpressNames;
 
 			/**
 			 * 验证样本集中样本的基因数量
@@ -90,13 +91,13 @@ namespace generat {
 			 * @param index 样本序号
 			 * @return 给定序号的样本
 			 */
-			const CSample<geneType, expType>& getSampleAt(const int index) const;
+			const CSample<geneType, expType>& getSampleAt(const size_t index) const;
 			/**
 			 * 获取给定下标的样本
 			 * @param index 样本下标
 			 * @return 给定下标的样本
 			 */
-			const CSample<geneType, expType>& operator [](const size_t index) const;
+			const CSample<geneType, expType>& operator[](const size_t index) const;
 			/**
 			 * 获取所有基因的名称
 			 * @return 所有基因的名称
@@ -107,14 +108,26 @@ namespace generat {
 			 * @return 字符串描述
 			 */
 			const string toString() const;
+			/**
+			 * 获取样本集表现型名称列表
+			 * @return 样本集表现型名称列表
+			 */
+			const vector<string>& getExpressNames() const;
+			/**
+			 * 设置样本集表现型名称列表
+			 * @param vsExpressNames_ 样本集表现型名称列表
+			 */
+			void setExpressNames(const vector<string>& vsExpressNames_);
 
 			/**
-			 * 利用数据矩阵初始化样本集
+			 * 利用数据矩阵初始化样本集的基因型数据
 			 * @param data 数据矩阵
 			 * @param nameList_ 样本集中样本的名称
 			 * @return 初始化的样本个数
 			 */
-			const size_t initFromMatrix(const vector<vector<geneType> >& data, const vector<string>& nameList_);
+			const size_t initGeneDataFromMatrix(const vector<vector<geneType> >& data, const vector<string>& nameList_);
+
+			const size_t initExpDataFromMatrix(const vector<vector<expType> >& data, const vector<string>& nameList_);
 			//TODO todolist done
 	};
 

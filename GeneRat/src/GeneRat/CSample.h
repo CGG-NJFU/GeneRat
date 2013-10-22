@@ -80,7 +80,7 @@ namespace generat {
 			 * @param index 基因序号
 			 * @return 表现型数据
 			 */
-			const geneType& getGeneValueAt(int index) const;
+			const geneType& getGeneValueAt(const size_t index) const;
 
 			/**
 			 * 设置样本的所有表现型
@@ -97,7 +97,7 @@ namespace generat {
 			 * @param index 基因序号
 			 * @return 表现型数据
 			 */
-			const expType& getExpressValueAt(int index) const;
+			const expType& getExpressValueAt(const size_t index) const;
 
 			CSample& operator = (const CSample& oSample);
 
