@@ -10,7 +10,7 @@
 
 #include "../GeneRat.h"
 
-void EmptySampleSetTester(int, double);
-void GeneMapReader(string);
+void emptySampleSetTester(int, double);
+void geneMapReader();
 
 #endif /* TESTERS_H_ */

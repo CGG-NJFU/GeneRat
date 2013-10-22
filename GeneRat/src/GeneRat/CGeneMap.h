@@ -44,7 +44,7 @@ class CGeneMap {
 		 */
 		const bool verifySize() const;
 	public:
-		CGeneMap(string sMapName_);
+		CGeneMap(const string sMapName_);
 		~CGeneMap();
 		/**
 		 * 获取基因图谱的位点个数
@@ -58,7 +58,7 @@ class CGeneMap {
 		 * @param vsGeneNames_ 基因位点名称数据
 		 * @return 该染色体中基因位点数量
 		 */
-		const size_t addChromosome(int iChromosomeIndex_, vector<double> vdGeneInterval_, vector<string> vsGeneNames_);
+		const size_t addChromosome(const int iChromosomeIndex_, vector<double> vdGeneInterval_, vector<string> vsGeneNames_);
 		/**
 		 * 获取基因图谱的字符串描述
 		 * @return 字符串描述
@@ -69,15 +69,23 @@ class CGeneMap {
 		 * @param iChromosomeIndex_ 染色体编号
 		 * @return 删除的位点个数
 		 */
-		const size_t removeChromosome(int iChromosomeIndex_);
+		const size_t removeChromosome(const int iChromosomeIndex_);
 
 		/**
 		 * 获取基因位点的名称
 		 * @param index 基因序号
 		 * @return 基因位点的名称
 		 */
-		const string getGeneNameAt(size_t index) const;
-		//TODO todolist
+		const string getGeneNameAt(const size_t index) const;
+
+		/**
+		 * 从间隔文件初试化染色体
+		 * @param sIntervalFileName_ 间隔文件的文件名
+		 * @param iChromosomeIndex_ 染色体编号
+		 * @return
+		 */
+		const int initFromIntervalData(const vector<double> vdIntervalData, const int iChromosomeIndex_=1);
+		//TODO todolist done
 };
 
 } /* namespace generat */

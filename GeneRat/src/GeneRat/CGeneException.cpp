@@ -8,11 +8,12 @@
 
 #include <iostream>
 #include "CGeneException.h"
+#include "../utils/GRUtils.h"
 using namespace std;
 
 namespace generat {
 
-	CGeneException::CGeneException(const char* info, int exceptionClass) {
+	CGeneException::CGeneException(const string info, int exceptionClass) {
 		this->sInfo = info;
 		this->iExceptionClass = exceptionClass;
 	}
@@ -20,7 +21,7 @@ namespace generat {
 	CGeneException::~CGeneException() {
 	}
 
-	const char* CGeneException::getInfo() {
+	const string CGeneException::getInfo() {
 		return this->sInfo;
 	}
 
@@ -28,7 +29,7 @@ namespace generat {
 		return this->iExceptionClass;
 	}
 
-//	const char* CGeneException::getExceptionClassName() {
-//		return EXCEPTION_CLASS_NAME[this->getExceptionClass()];
-//	}
+	const string CGeneException::getExceptionClassName() {
+		return EXCEPTION_CLASS_NAME[this->getExceptionClass()];
+	}
 } /* namespace generat */

@@ -8,12 +8,23 @@
 #ifndef CLASS_GENEEXCEPTION_H_
 #define CLASS_GENEEXCEPTION_H_
 
+#include <string>
+
+using namespace std;
+
 namespace generat {
 
 typedef enum  {
+	EXCEPTION_NONE = 0,
 	EXCEPTION_NORMAL = 1,
 	EXCEPTION_VITAL = 2
 } ExceptionClass;
+
+const string EXCEPTION_CLASS_NAME[] = {
+		"NONE",
+		"NORMAL",
+		"VITAL"
+};
 
 /**
  * GR异常类
@@ -25,7 +36,7 @@ class CGeneException {
 		 * @param info 异常信息
 		 * @param exceptionClass 异常等级
 		 */
-		CGeneException(const char* info, int exceptionClass=EXCEPTION_NORMAL);
+		CGeneException(const string info, int iExceptionClass=EXCEPTION_NORMAL);
 		/**
 		 * 析构异常
 		 */
@@ -34,18 +45,22 @@ class CGeneException {
 		 * 获取异常信息
 		 * @return 异常信息
 		 */
-		const char* getInfo();
+		const string getInfo();
 		/**
 		 * 获取异常等级
 		 * @return 异常等级
 		 */
 		int getExceptionClass();
-//		const char* getExceptionClassName();
+		/**
+		 * 获取异常等级的名称
+		 * @return 异常等级名称
+		 */
+		const string getExceptionClassName();
 	private:
 		/**
 		 * 异常信息
 		 */
-		const char* sInfo;
+		string sInfo;
 		/**
 		 * 异常等级
 		 */

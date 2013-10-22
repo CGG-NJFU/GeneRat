@@ -14,6 +14,7 @@ namespace generat {
 		:oGeneMap(geneMap_) {
 		this->sName = name_;
 		this->iSampleGeneNumber = geneMap_.size();
+		this->vsExpressName = *(new vector<string>());
 		logger <<Priority::DEBUG <<"SampleSet(" <<this->sName <<") is constructed.";
 	}
 
@@ -67,7 +68,7 @@ namespace generat {
 	}
 
 	template <typename geneType, typename expType>
-	CSample<geneType, expType> CSampleSet<geneType, expType>::operator [](const size_t index) const {
+	const CSample<geneType, expType>& CSampleSet<geneType, expType>::operator [](const size_t index) const {
 		return voSamples[index];
 	}
 

@@ -38,6 +38,10 @@ namespace generat {
 			 * 样本集中各样本的基因图谱
 			 */
 			CGeneMap& oGeneMap;
+			/**
+			 * 样本集中各样本的表现型数据名称
+			 */
+			vector<string> vsExpressName;
 
 			/**
 			 * 验证样本集中样本的基因数量
@@ -92,7 +96,7 @@ namespace generat {
 			 * @param index 样本下标
 			 * @return 给定下标的样本
 			 */
-			CSample<geneType, expType> operator [](const size_t index) const;
+			const CSample<geneType, expType>& operator [](const size_t index) const;
 			/**
 			 * 获取所有基因的名称
 			 * @return 所有基因的名称
@@ -104,8 +108,14 @@ namespace generat {
 			 */
 			const string toString() const;
 
+			/**
+			 * 利用数据矩阵初始化样本集
+			 * @param data 数据矩阵
+			 * @param nameList_ 样本集中样本的名称
+			 * @return 初始化的样本个数
+			 */
 			const size_t initFromMatrix(const vector<vector<geneType> >& data, const vector<string>& nameList_);
-			//TODO todolist
+			//TODO todolist done
 	};
 
 } /* namespace generat */

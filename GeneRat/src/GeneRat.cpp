@@ -15,13 +15,13 @@ typedef int (*MainFunc)();
 int runMain(MainFunc, bool=true);
 
 int gr_main() {
-	//EmptySampleSetTester(8, 0.01);
-	GeneMapReader("data/traitInterval.txt");
-	return 0;
+	emptySampleSetTester(8, 0.01);
+	//geneMapReader();
+	return (0);
 }
 
 int main() {
-	return runMain(gr_main);
+	return (runMain(gr_main));
 }
 
 /**
@@ -31,7 +31,7 @@ int main() {
  * @return 返回主函数的返回值
  */
 int runMain(MainFunc func, bool ifUseLog) {
-	if ( !ifUseLog ) return func();
+	if ( !ifUseLog ) return (func());
 
 	int re=0;
 	bool ifLogOK = initLoggers();
@@ -45,5 +45,5 @@ int runMain(MainFunc func, bool ifUseLog) {
 	}
 
 	haltLoggers();
-	return re;
+	return (re);
 }

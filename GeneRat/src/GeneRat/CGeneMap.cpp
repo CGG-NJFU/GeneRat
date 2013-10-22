@@ -9,12 +9,15 @@
 
 namespace generat {
 
-	CGeneMap::CGeneMap(string sMapName_) {
+	CGeneMap::CGeneMap(const string sMapName_) {
 		this->sMapName = sMapName_;
 		logger <<Priority::DEBUG <<"GeneMap(" <<this->sMapName <<") is constructed.";
 	}
 
 	CGeneMap::~CGeneMap() {
+		this->vdGenePositions.clear();
+		this->viGeneChromosome.clear();
+		this->vsGeneNames.clear();
 		logger <<Priority::DEBUG <<"GeneMap(" <<this->sMapName <<") is destructed.";
 	}
 
@@ -33,7 +36,7 @@ namespace generat {
 		}
 	}
 
-	const size_t CGeneMap::addChromosome(int iChromosomeIndex_, vector<double> vdGeneInterval_, vector<string> vsGeneNames_) {
+	const size_t CGeneMap::addChromosome(const int iChromosomeIndex_, vector<double> vdGeneInterval_, vector<string> vsGeneNames_) {
 		if ( vsGeneNames_.size() - vdGeneInterval_.size() != 1 ) {
 			throw new CGeneException("Chromosome Info error, check interval and name data");
 		}
@@ -49,7 +52,7 @@ namespace generat {
 		return size()-oldSize;
 	}
 
-	const size_t CGeneMap::removeChromosome(int iChromosomeIndex_) {
+	const size_t CGeneMap::removeChromosome(const int iChromosomeIndex_) {
 		size_t oldSize = size();
 		for (size_t i=0; i<size(); ) {
 			if (this->viGeneChromosome[i] == iChromosomeIndex_ ) {
@@ -64,8 +67,19 @@ namespace generat {
 		return oldSize - size();
 	}
 
-	const string CGeneMap::getGeneNameAt(size_t index) const {
+	const string CGeneMap::getGeneNameAt(const size_t index) const {
 		return this->vsGeneNames[index];
+	}
+
+	const int CGeneMap::initFromIntervalData(const vector<double> vdIntervalData_, const int iChromosomeIndex_) {
+		int realsize = vdIntervalData_.size()+1;
+
+		vector<string>* vs = new vector<string>();
+		for (int i=0; i<realsize;i++) {
+			vs->push_back( "Ch"+uToString(iChromosomeIndex_)+"-Lo"+uToString(i+1));
+		}
+		this->addChromosome(iChromosomeIndex_, vdIntervalData_, *vs);
+		return realsize;
 	}
 
 	const string CGeneMap::toString() const{
