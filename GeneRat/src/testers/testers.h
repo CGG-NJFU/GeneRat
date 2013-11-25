@@ -13,5 +13,6 @@
 void emptySampleSetTester(int, double);
 void geneMapReader();
 void basicTest();
+void QTLTestRun();
 
 #endif /* TESTERS_H_ */

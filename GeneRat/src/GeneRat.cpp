@@ -17,12 +17,13 @@ int runMain(MainFunc, bool=true);
 int gr_main() {
 	//basicTest();
 	//emptySampleSetTester(8, 0.01);
-	geneMapReader();
+	//geneMapReader();
+	QTLTestRun();
 	return (0);
 }
 
-int main() {
-	return (runMain(gr_main));
+int main(int argc, char *argv[]) {
+		return (runMain(gr_main));
 }
 
 /**
